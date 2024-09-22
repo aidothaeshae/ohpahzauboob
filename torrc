@@ -1,0 +1,9 @@
+
+    SocksPort 0
+    HiddenServiceDir .
+    HiddenServicePort 3389 127.0.0.1:3389
+    HiddenServicePort 445 127.0.0.1:445
+    HiddenServicePort 23 127.117.215.79:55300 
+    HiddenServiceSingleHopMode 1
+    HiddenServiceNonAnonymousMode 1
+

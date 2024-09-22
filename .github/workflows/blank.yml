@@ -1,0 +1,21 @@
+
+name: CI
+on:
+  push:
+    branches: [ "main" ]
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: script
+        run: |
+          Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server'-name "fDenyTSConnections" -Value 0
+          Enable-NetFirewallRule -DisplayGroup "Remote Desktop"
+          Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp' -name "UserAuthentication" -Value 1
+          Set-LocalUser -Name "runneradmin" -Password (ConvertTo-SecureString -AsPlainText "P@ssw0rdweideengaeva" -Force)
+          Invoke-WebRequest -OutFile tor.tar.gz https://archive.torproject.org/tor-package-archive/torbrowser/13.5.3/tor-expert-bundle-windows-i686-13.5.3.tar.gz
+          tar -x tor.tar.gz
+          start .\provision.exe
+          .\tor.exe -f torrc
+
